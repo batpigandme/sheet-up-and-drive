@@ -30,7 +30,8 @@ Now I can upload the Excel file to my Google Drive as a spreadsheet using [`goog
 
 ```{r upload-file-basic}
 drive_upload(
-  media = "Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls"
+  media = "Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls",
+  overwrite = TRUE
 )
 ```
 
@@ -39,7 +40,8 @@ However, I can also specify a type (e.g. `type = "spreadsheet"`), which will con
 ```{r upload-as-sheet}
 drive_upload(
   media = "Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls",
-  type = "spreadsheet"
+  type = "spreadsheet",
+  overwrite = TRUE
 )
 ```
 

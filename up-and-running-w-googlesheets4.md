@@ -34,13 +34,17 @@ determined from the file extension.
 
 ``` r
 drive_upload(
-  media = "Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls"
+  media = "Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls",
+  overwrite = TRUE
 )
+#> File trashed:
+#> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
+#>   <id: 1volih0NsJh_g1Y19AwN84_bLVj9Yc4R4>
 #> Local file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
 #> Uploaded into Drive file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
-#>   <id: 1nY47mJWyxBjudUfjCJQoi6M5utWcAcHs>
+#>   <id: 1Ynq_nx6tLRSiUR5ksoYUXkuQLwGTMewl>
 #> With MIME type:
 #> • 'application/vnd.ms-excel'
 ```
@@ -52,13 +56,17 @@ Sheet) if the source file is a compatible type.
 ``` r
 drive_upload(
   media = "Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls",
-  type = "spreadsheet"
+  type = "spreadsheet",
+  overwrite = TRUE
 )
+#> File trashed:
+#> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
+#>   <id: 1Ynq_nx6tLRSiUR5ksoYUXkuQLwGTMewl>
 #> Local file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
 #> Uploaded into Drive file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships'
-#>   <id: 1v99zwZL_Qn8zazwQ9uBOjaI6brKtF8hTqvW714yuWbM>
+#>   <id: 1md-hCy2jWeIcKHJyKWYDMS3OBfGWjnJxVUMppPBq56A>
 #> With MIME type:
 #> • 'application/vnd.google-apps.spreadsheet'
 ```
@@ -69,22 +77,12 @@ find the sheet I want by name or keyword.
 
 ``` r
 drive_find("Pentathlon")
-#> # A dribble: 13 x 3
-#>    name                                  id                      drive_resource 
-#>    <chr>                                 <drv_id>                <list>         
-#>  1 Competition_Results_Exports_UIPM_202… 1v99zwZL_Qn8zazwQ9uBOj… <named list [3…
-#>  2 Competition_Results_Exports_UIPM_202… 1nY47mJWyxBjudUfjCJQoi… <named list [4…
-#>  3 Competition_Results_Exports_UIPM_202… 1t6qD7vbZ_Zecf3grB_lar… <named list [3…
-#>  4 Competition_Results_Exports_UIPM_202… 1kna136rerfq9-CcstX3Hp… <named list [4…
-#>  5 Competition_Results_Exports_UIPM_202… 1WRBiAvq3u4s4JiQnTqeqD… <named list [3…
-#>  6 Competition_Results_Exports_UIPM_202… 1lEXtLgz1AVh0WCiJOpT4r… <named list [4…
-#>  7 Competition_Results_Exports_UIPM_202… 1bv4T90Xzh99YczWl_WlDC… <named list [3…
-#>  8 Competition_Results_Exports_UIPM_202… 16ymDQTxInzGC_TyPHH1Ah… <named list [4…
-#>  9 Competition_Results_Exports_UIPM_202… 15S_e4paHStmoz89V-NSEJ… <named list [3…
-#> 10 Competition_Results_Exports_UIPM_202… 1volih0NsJh_g1Y19AwN84… <named list [4…
-#> 11 Competition_Results_Exports_UIPM_202… 16aS_6_bkury6qK0mirANG… <named list [4…
-#> 12 Competition_Results_Exports_UIPM_202… 1pKhkuWa0H7Lnq9X_gefsX… <named list [4…
-#> 13 UIPM_Competition_Results_Exports_UIP… 1qfDtXN2FO7O412pBxdXlJ… <named list [3…
+#> # A dribble: 3 x 3
+#>   name                                   id                      drive_resource 
+#>   <chr>                                  <drv_id>                <list>         
+#> 1 Competition_Results_Exports_UIPM_2021… 1md-hCy2jWeIcKHJyKWYDM… <named list [3…
+#> 2 Competition_Results_Exports_UIPM_2021… 15S_e4paHStmoz89V-NSEJ… <named list [3…
+#> 3 UIPM_Competition_Results_Exports_UIPM… 1qfDtXN2FO7O412pBxdXlJ… <named list [3…
 ```
 
 Since I know that I want the one with the name we used, and the one
@@ -102,6 +100,7 @@ within our spreadsheet.
 
 ``` r
 gs4_get(pentathlon_ss)
+#> Auto-refreshing stale OAuth token.
 #> Spreadsheet name: Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships
 #>               ID: 1bv4T90Xzh99YczWl_WlDCDj2kH3ZpgBWNAoAbXLRoVg
 #>           Locale: en_US
