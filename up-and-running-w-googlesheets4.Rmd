@@ -1,0 +1,72 @@
+---
+title: "Up and running with googlesheets4"
+output: github_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  gargle_oauth_email = "mara@rstudio.com"
+)
+```
+
+```{r libs, message=FALSE}
+library(tidyverse)
+library(googledrive)
+library(googlesheets4)
+```
+
+First thing's first, I need to upload the `.xls` file from  [UIPM 2021 World Championship Results](https://www.uipmworld.org/event/uipm-2021-pentathlon-world-championships) to googledrive.
+
+Here, I'll use [`drive_auth()`](https://googledrive.tidyverse.org/reference/drive_auth.html), which allows you to either interactively select a pre-authorized account in R, or takes you to the browser to generate obtain a new token for your account. To learn more about authenticating your account in an R Markdown document, see the [Non-interactive auth](https://gargle.r-lib.org/articles/non-interactive-auth.html#sidebar-2-i-just-want-my-rmd-to-render) article for [{gargle}](https://gargle.r-lib.org/).
+
+```{r drive-auth}
+drive_auth(email = "mara@rstudio.com")
+gs4_auth(email = "mara@rstudio.com")
+```
+
+Now I can upload the Excel file to my Google Drive as a spreadsheet using [`googledrive::drive_upload()`](https://googledrive.tidyverse.org/reference/drive_upload.html). If I don't specify the `type` argument, a MIME type is automatically determined from the file extension.
+
+```{r upload-file-basic}
+drive_upload(
+  media = "Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls"
+)
+```
+
+However, I can also specify a type (e.g. `type = "spreadsheet"`), which will convert the file to its Google equivalent (in this case, a Google Sheet) if the source file is a compatible type.
+
+```{r upload-as-sheet}
+drive_upload(
+  media = "Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls",
+  type = "spreadsheet"
+)
+```
+
+Now, let's say I want to read my sheet into R to do some data wrangling (it's about as untidy as a dataset can get). I'll use `drive_find()` to find the sheet I want by name or keyword.
+
+```{r drive-find}
+drive_find("Pentathlon")
+```
+Since I know that I want the one with the name we used, and the one that's in the native Google Sheet format (also the most recent), I can retrieve the sheet by `id`. (The `id` was also shown to us when I uploaded the file.)
+
+```{r drie-get}
+pentathlon_ss <- drive_get(id = "1bv4T90Xzh99YczWl_WlDCDj2kH3ZpgBWNAoAbXLRoVg")
+```
+
+To actually read the file into R as a data frame, we'll need googlesheets4. We can use `gs4_get()` to see all of the sheets available within our spreadsheet. 
+
+```{r gs4}
+gs4_get(pentathlon_ss)
+```
+Let's say we want the "Women Finals" results. We can pipe the results of `gs4_get()` into `googlesheets4::read_sheet()` to read that specific sheet into R as a data frame.
+
+```{r read-sheet}
+w_finals <- gs4_get(pentathlon_ss) %>%
+  read_sheet(sheet = "Women Finals")
+```
+
+```{r glimpse-w-finals}
+glimpse(w_finals)
+```
+

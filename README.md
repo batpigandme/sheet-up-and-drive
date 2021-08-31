@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# sheet-up-and-drive
+# Sheet Up and Drive
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -9,7 +9,7 @@
 📝 Drafting a post on
 [**{googledrive}**](https://googledrive.tidyverse.org/) and
 [**{googlesheets4}**](https://googlesheets4.tidyverse.org/) for
-tidyverse/open-source post-like something…
+tidyverse/open-source, post-like something…
 
 Featuring a lot of stuff cribbed from my [modern pentathlon
 post/screencast](https://github.com/batpigandme/modern-pentathlon) for
