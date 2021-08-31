@@ -1,2 +1,24 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # sheet-up-and-drive
-Drafting a post on googledrive and googlesheets4 for tidyverse/open source something…
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+📝 Drafting a post on
+[**{googledrive}**](https://googledrive.tidyverse.org/) and
+[**{googlesheets4}**](https://googlesheets4.tidyverse.org/) for
+tidyverse/open-source post-like something…
+
+Featuring a lot of stuff cribbed from my [modern pentathlon
+post/screencast](https://github.com/batpigandme/modern-pentathlon) for
+[TidyX Episode 69 \| Modern Pentathlons with Mara
+Averick](https://youtu.be/1356s1-as4o), and Jenny Bryan’s release posts
+for [googledrive
+2.0.0](https://www.tidyverse.org/blog/2021/07/googledrive-2-0-0/) and
+[googlesheets4
+1.0.0](https://www.tidyverse.org/blog/2021/07/googlesheets4-1-0-0/), as
+well as the bevvy of helpful [googlesheets4
+articles](https://googlesheets4.tidyverse.org/articles/index.html)
+available on its pkgdown site.
