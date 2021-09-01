@@ -78,12 +78,12 @@ gs4_get(pentathlon_ss)
 Let's say we want the "Women Finals" results. We can pipe the results of `gs4_get()` into [`googlesheets4::read_sheet()`](https://googlesheets4.tidyverse.org/reference/range_read.html) to read that specific sheet into R as a data frame. In this case, the sheets are all names (thanks to to UIPM's meticulous record keeping), so I'll specify the `sheet` argument as a string. However, you can also specify the `sheet` by position (e.g. 6, in the case of the sheet I want here). If `sheet` is not specified, `read_sheet()` will default to the first visible sheet.
 
 ```{r read-sheet}
-w_finals <- gs4_get(pentathlon_ss) %>%
+w_finals_df <- gs4_get(pentathlon_ss) %>%
   read_sheet(sheet = "Women Finals")
 ```
 
 ```{r glimpse-w-finals}
-glimpse(w_finals)
+glimpse(w_finals_df)
 ```
 
 ## Adding and writing to the spreadsheet
@@ -94,7 +94,7 @@ and [Patrick Ward’s](https://twitter.com/OSPpatrick) [TidyX Screencast](https:
 For the purposes of this post, suffice it to say that cleaning was done, resulting in a tidy data frame called `women_finals_tidy`.
 
 ```{r tidy-women-finals, echo=FALSE}
-women_finals_tidy <- w_finals %>%
+women_finals_tidy <- w_finals_df  %>%
   janitor::clean_names() %>%
   separate("name", into = c("name", "uipm_id"), sep = "\n") %>%
   separate("uipm_id", into = c("uipm_id", "dob"), sep = " ") %>%

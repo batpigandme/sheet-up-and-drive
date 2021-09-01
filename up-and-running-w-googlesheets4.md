@@ -70,7 +70,7 @@ drive_upload(
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
 #> Uploaded into Drive file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
-#>   <id: 1sZr2uqxmV1i2pKI_X8Zu53R9NyU5ERmo>
+#>   <id: 1dxXlE5IihXCNgkMItZ3pm7KlpRQE23p4>
 #> With MIME type:
 #> • 'application/vnd.ms-excel'
 ```
@@ -90,12 +90,12 @@ drive_upload(
 )
 #> File trashed:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
-#>   <id: 1sZr2uqxmV1i2pKI_X8Zu53R9NyU5ERmo>
+#>   <id: 1dxXlE5IihXCNgkMItZ3pm7KlpRQE23p4>
 #> Local file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
 #> Uploaded into Drive file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships'
-#>   <id: 12kgw4ZJf9bNUxahYaRl3MT4Cu9NfcNyBZ-wci_XQcmE>
+#>   <id: 1DTPt2szmdEQ6LJrKLWrBjS6SXWTTNIRNQgtfTQxzj_Q>
 #> With MIME type:
 #> • 'application/vnd.google-apps.spreadsheet'
 ```
@@ -112,7 +112,7 @@ drive_find("Pentathlon")
 #> # A dribble: 3 × 3
 #>   name                                   id                      drive_resource 
 #>   <chr>                                  <drv_id>                <list>         
-#> 1 Competition_Results_Exports_UIPM_2021… 12kgw4ZJf9bNUxahYaRl3M… <named list [3…
+#> 1 Competition_Results_Exports_UIPM_2021… 1DTPt2szmdEQ6LJrKLWrBj… <named list [3…
 #> 2 Competition_Results_Exports_UIPM_2021… 1W5Y46CAMjpvnqOtPIzA48… <named list [3…
 #> 3 UIPM_Competition_Results_Exports_UIPM… 1qfDtXN2FO7O412pBxdXlJ… <named list [3…
 ```
@@ -165,7 +165,7 @@ here). If `sheet` is not specified, `read_sheet()` will default to the
 first visible sheet.
 
 ``` r
-w_finals <- gs4_get(pentathlon_ss) %>%
+w_finals_df <- gs4_get(pentathlon_ss) %>%
   read_sheet(sheet = "Women Finals")
 #> ✓ Reading from
 #>   "Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships".
@@ -173,7 +173,7 @@ w_finals <- gs4_get(pentathlon_ss) %>%
 ```
 
 ``` r
-glimpse(w_finals)
+glimpse(w_finals_df)
 #> Rows: 36
 #> Columns: 9
 #> $ Rank              <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1…
