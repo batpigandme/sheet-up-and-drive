@@ -17,7 +17,11 @@ Given the new(ish), major releases of [**{googledrive}**](https://googledrive.ti
 
 ## What am I trying to do?
 
-I'm taking downloaded Excel data on the modern pentathlon, and uploading it to Google Drive as a Google Sheet. From there I want to read some of the data into R, clean it up, and modify the original spreadsheet in Google Drive by adding the tidied version of the data as a new sheet/tab.
+The Union Internationale de Pentathlon Moderne (UIPM) makes its world-championship data available in Excel format as a workbook with 14 sheets. The data itself is decidedly untidy, with a number of values in any given cell.
+
+![Women Finals tab of Competition Results UIPM Export showing untidy data in cells](https://i.imgur.com/4ciN2ma.png)
+
+To clean things up, I'll take the downloaded Excel data oand upload it to Google Drive as a Google Sheet. From there I want to read some of the data into R, tidy it up, and modify the original spreadsheet in Google Drive by adding the tidied version of the data as a new sheet/tab.
 
 ## Authenticating and uploading
 
@@ -27,9 +31,9 @@ library(googledrive)
 library(googlesheets4)
 ```
 
-First thing's first, I'll to upload the `.xls` file from  [Union Internationale de Pentathlon Moderne (UIPM) 2021 Pentathlon World Championships](https://www.uipmworld.org/event/uipm-2021-pentathlon-world-championships) to Google Drive.
+First thing's first, I'll to upload the `.xls` file from  [UIPM 2021 Pentathlon World Championships](https://www.uipmworld.org/event/uipm-2021-pentathlon-world-championships) to Google Drive.
 
-To authenticate with my Google Drive account (and specify which one I want to use), I'll use [`googledrive::drive_auth()`](https://googledrive.tidyverse.org/reference/drive_auth.html), which allows you to either interactively select a pre-authorized account in R, or takes you to the browser to generate obtain a new token for your account. I'll also (unnecessarily) specify [`googlesheets4::gs4_auth()`](https://googlesheets4.tidyverse.org/reference/gs4_auth.html), just so you can see what that function looks like as well. 
+To authenticate with my Google Drive account (and specify which one I want to use), I'll use [`googledrive::drive_auth()`](https://googledrive.tidyverse.org/reference/drive_auth.html), which allows you to either interactively select a pre-authorized account in your R console, or takes you to the browser to generate a new token for your Google account. I'll also (unnecessarily) specify [`googlesheets4::gs4_auth()`](https://googlesheets4.tidyverse.org/reference/gs4_auth.html), just so you can see what that function looks like as well. 
 
 To learn more about authenticating your account in an R Markdown document, see the [Non-interactive auth](https://gargle.r-lib.org/articles/non-interactive-auth.html#sidebar-2-i-just-want-my-rmd-to-render) article for [{gargle}](https://gargle.r-lib.org/).
 
@@ -88,7 +92,7 @@ glimpse(w_finals_df)
 
 ## Adding and writing to the spreadsheet
 
-As you can probably see from this `glimpse()` at the data above, it is most definitely _not_ tidy. If you want to see how I went about cleaning it up and/or learn more about the sport of modern pentathlon, you can check out the episode of [Ellis Hughes](https://twitter.com/ellis_hughes)
+As you can probably see from this [`glimpse()`](https://pillar.r-lib.org/reference/glimpse.html) at the data above, it is most definitely _not_ tidy. If you want to see how I went about cleaning it up and/or learn more about the sport of modern pentathlon, you can check out the episode of [Ellis Hughes](https://twitter.com/ellis_hughes)
 and [Patrick Ward’s](https://twitter.com/OSPpatrick) [TidyX Screencast](https://www.youtube.com/channel/UCP8l94xtoemCH_GxByvTuFQ),  [Episode 69 | Modern Pentathlons with Mara Averick](https://www.youtube.com/watch?v=1356s1-as4o), and find all of the code in [this GitHub repo](https://github.com/batpigandme/modern-pentathlon).
 
 For the purposes of this post, suffice it to say that cleaning was done, resulting in a tidy data frame called `women_finals_tidy`.

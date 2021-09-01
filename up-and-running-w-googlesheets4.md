@@ -15,11 +15,18 @@ together in a “real-world” scenario.
 
 ## What am I trying to do?
 
-I’m taking downloaded Excel data on the modern pentathlon, and uploading
-it to Google Drive as a Google Sheet. From there I want to read some of
-the data into R, clean it up, and modify the original spreadsheet in
-Google Drive by adding the tidied version of the data as a new
-sheet/tab.
+The Union Internationale de Pentathlon Moderne (UIPM) makes its
+world-championship data available in Excel format as a workbook with 14
+sheets. The data itself is decidedly untidy, with a number of values in
+any given cell.
+
+![Women Finals tab of Competition Results UIPM Export showing untidy
+data in cells](https://i.imgur.com/4ciN2ma.png)
+
+To clean things up, I’ll take the downloaded Excel data oand upload it
+to Google Drive as a Google Sheet. From there I want to read some of the
+data into R, tidy it up, and modify the original spreadsheet in Google
+Drive by adding the tidied version of the data as a new sheet/tab.
 
 ## Authenticating and uploading
 
@@ -29,8 +36,8 @@ library(googledrive)
 library(googlesheets4)
 ```
 
-First thing’s first, I’ll to upload the `.xls` file from [Union
-Internationale de Pentathlon Moderne (UIPM) 2021 Pentathlon World
+First thing’s first, I’ll to upload the `.xls` file from [UIPM 2021
+Pentathlon World
 Championships](https://www.uipmworld.org/event/uipm-2021-pentathlon-world-championships)
 to Google Drive.
 
@@ -38,8 +45,8 @@ To authenticate with my Google Drive account (and specify which one I
 want to use), I’ll use
 [`googledrive::drive_auth()`](https://googledrive.tidyverse.org/reference/drive_auth.html),
 which allows you to either interactively select a pre-authorized account
-in R, or takes you to the browser to generate obtain a new token for
-your account. I’ll also (unnecessarily) specify
+in your R console, or takes you to the browser to generate a new token
+for your Google account. I’ll also (unnecessarily) specify
 [`googlesheets4::gs4_auth()`](https://googlesheets4.tidyverse.org/reference/gs4_auth.html),
 just so you can see what that function looks like as well.
 
@@ -70,7 +77,7 @@ drive_upload(
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
 #> Uploaded into Drive file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
-#>   <id: 1dxXlE5IihXCNgkMItZ3pm7KlpRQE23p4>
+#>   <id: 1OPNxEy35jsOmR4H5DadvDaOeN2E_6G4e>
 #> With MIME type:
 #> • 'application/vnd.ms-excel'
 ```
@@ -90,12 +97,12 @@ drive_upload(
 )
 #> File trashed:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
-#>   <id: 1dxXlE5IihXCNgkMItZ3pm7KlpRQE23p4>
+#>   <id: 1OPNxEy35jsOmR4H5DadvDaOeN2E_6G4e>
 #> Local file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
 #> Uploaded into Drive file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships'
-#>   <id: 1DTPt2szmdEQ6LJrKLWrBjS6SXWTTNIRNQgtfTQxzj_Q>
+#>   <id: 1sW1E8EZYXuVjiQEpBS7GQr3DrRAnn4dP0Est37DImhM>
 #> With MIME type:
 #> • 'application/vnd.google-apps.spreadsheet'
 ```
@@ -112,7 +119,7 @@ drive_find("Pentathlon")
 #> # A dribble: 3 × 3
 #>   name                                   id                      drive_resource 
 #>   <chr>                                  <drv_id>                <list>         
-#> 1 Competition_Results_Exports_UIPM_2021… 1DTPt2szmdEQ6LJrKLWrBj… <named list [3…
+#> 1 Competition_Results_Exports_UIPM_2021… 1sW1E8EZYXuVjiQEpBS7GQ… <named list [3…
 #> 2 Competition_Results_Exports_UIPM_2021… 1W5Y46CAMjpvnqOtPIzA48… <named list [3…
 #> 3 UIPM_Competition_Results_Exports_UIPM… 1qfDtXN2FO7O412pBxdXlJ… <named list [3…
 ```
@@ -131,6 +138,7 @@ to see all of the sheets available within our spreadsheet.
 
 ``` r
 gs4_get(pentathlon_ss)
+#> Auto-refreshing stale OAuth token.
 #> Spreadsheet name: Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships
 #>               ID: 1W5Y46CAMjpvnqOtPIzA48hmCJElb6vKE1-Vo8v2jj_4
 #>           Locale: en_US
@@ -189,10 +197,11 @@ glimpse(w_finals_df)
 
 ## Adding and writing to the spreadsheet
 
-As you can probably see from this `glimpse()` at the data above, it is
-most definitely *not* tidy. If you want to see how I went about cleaning
-it up and/or learn more about the sport of modern pentathlon, you can
-check out the episode of [Ellis
+As you can probably see from this
+[`glimpse()`](https://pillar.r-lib.org/reference/glimpse.html) at the
+data above, it is most definitely *not* tidy. If you want to see how I
+went about cleaning it up and/or learn more about the sport of modern
+pentathlon, you can check out the episode of [Ellis
 Hughes](https://twitter.com/ellis_hughes) and [Patrick
 Ward’s](https://twitter.com/OSPpatrick) [TidyX
 Screencast](https://www.youtube.com/channel/UCP8l94xtoemCH_GxByvTuFQ),
