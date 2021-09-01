@@ -3,7 +3,7 @@ title: "Up and running with googlesheets4"
 output: github_document
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -11,22 +11,32 @@ knitr::opts_chunk$set(
 )
 ```
 
+## What's this?
+
+Given the new(ish), major releases of [**{googledrive}**](https://googledrive.tidyverse.org/) and [**{googlesheets4}**](https://googlesheets4.tidyverse.org/) (see Jenny Bryan's release posts for [googledrive 2.0.0](https://www.tidyverse.org/blog/2021/07/googledrive-2-0-0/) and [googlesheets4 1.0.0](https://www.tidyverse.org/blog/2021/07/googlesheets4-1-0-0/)), we thought it might be helpful to see how the two packages can be used together in a "real-world" scenario.
+
+Here, I'll be using downloaded Excel data on the modern pentathlon, uploading it to Google Drive as a Google Sheet, reading it into R, and modifying the spreadsheet Google Drive by adding a tidied version of that data as a new sheet/tab.
+
 ```{r libs, message=FALSE}
 library(tidyverse)
 library(googledrive)
 library(googlesheets4)
 ```
 
-First thing's first, I need to upload the `.xls` file from  [UIPM 2021 World Championship Results](https://www.uipmworld.org/event/uipm-2021-pentathlon-world-championships) to googledrive.
+## Authenticating and uploading
 
-Here, I'll use [`drive_auth()`](https://googledrive.tidyverse.org/reference/drive_auth.html), which allows you to either interactively select a pre-authorized account in R, or takes you to the browser to generate obtain a new token for your account. To learn more about authenticating your account in an R Markdown document, see the [Non-interactive auth](https://gargle.r-lib.org/articles/non-interactive-auth.html#sidebar-2-i-just-want-my-rmd-to-render) article for [{gargle}](https://gargle.r-lib.org/).
+First thing's first, I'll to upload the `.xls` file from  [Union Internationale de Pentathlon Moderne (UIPM) 2021 Pentathlon World Championships](https://www.uipmworld.org/event/uipm-2021-pentathlon-world-championships) to Google Drive.
+
+To authenticate with my Google Drive account (and specify which one I want to use), I'll use [`googledrive::drive_auth()`](https://googledrive.tidyverse.org/reference/drive_auth.html), which allows you to either interactively select a pre-authorized account in R, or takes you to the browser to generate obtain a new token for your account. I'll also (unnecessarily) specify [`googlesheets4::gs4_auth()`](https://googlesheets4.tidyverse.org/reference/gs4_auth.html), just so you can see what that function looks like as well. 
+
+To learn more about authenticating your account in an R Markdown document, see the [Non-interactive auth](https://gargle.r-lib.org/articles/non-interactive-auth.html#sidebar-2-i-just-want-my-rmd-to-render) article for [{gargle}](https://gargle.r-lib.org/).
 
 ```{r drive-auth}
 drive_auth(email = "mara@rstudio.com")
 gs4_auth(email = "mara@rstudio.com")
 ```
 
-Now I can upload the Excel file to my Google Drive as a spreadsheet using [`googledrive::drive_upload()`](https://googledrive.tidyverse.org/reference/drive_upload.html). If I don't specify the `type` argument, a MIME type is automatically determined from the file extension.
+Now I can upload the Excel file to my Google Drive as a spreadsheet using [`googledrive::drive_upload()`](https://googledrive.tidyverse.org/reference/drive_upload.html). If I don't specify the `type` argument, a MIME type is automatically determined from the file extension. I'm using the `overwrite` argument here to avoid clogging my Google Drive with this same data over and over, since I've knit this document several times.
 
 ```{r upload-file-basic}
 drive_upload(
@@ -35,7 +45,7 @@ drive_upload(
 )
 ```
 
-However, I can also specify a type (e.g. `type = "spreadsheet"`), which will convert the file to its Google equivalent (in this case, a Google Sheet) if the source file is a compatible type.
+However, I can also specify a type (e.g. `type = "spreadsheet"`), which will convert the file to its Google equivalent (in this case, a Google Sheet) if the source file is a compatible type. Note that I'll also get a message telling me what file has been trashed by the `overwrite` argument. In this case, it should match the id for the upload I did in the previous chunk.
 
 ```{r upload-as-sheet}
 drive_upload(
@@ -45,23 +55,25 @@ drive_upload(
 )
 ```
 
-Now, let's say I want to read my sheet into R to do some data wrangling (it's about as untidy as a dataset can get). I'll use `drive_find()` to find the sheet I want by name or keyword.
+## Finding and getting the data into R
+
+Now, let's say I want to read my sheet into R to do some data wrangling (it's about as untidy as a dataset can get). I'll use [`googledrive::drive_find()`](https://googledrive.tidyverse.org/reference/drive_find.html) to find the sheet I want by name or keyword.
 
 ```{r drive-find}
 drive_find("Pentathlon")
 ```
-Since I know that I want the one with the name we used, and the one that's in the native Google Sheet format (also the most recent), I can retrieve the sheet by `id`. (The `id` was also shown to us when I uploaded the file.)
+Since I know which one I want, I can retrieve the sheet by `id` with [`googledrive::drive_get()`](https://googledrive.tidyverse.org/reference/drive_get.html).
 
 ```{r drie-get}
-pentathlon_ss <- drive_get(id = "1bv4T90Xzh99YczWl_WlDCDj2kH3ZpgBWNAoAbXLRoVg")
+pentathlon_ss <- drive_get(id = "1W5Y46CAMjpvnqOtPIzA48hmCJElb6vKE1-Vo8v2jj_4")
 ```
 
-To actually read the file into R as a data frame, we'll need googlesheets4. We can use `gs4_get()` to see all of the sheets available within our spreadsheet. 
+To actually read the file into R as a data frame, we'll need googlesheets4. We can use [`googlesheets4::gs4_get()`](https://googlesheets4.tidyverse.org/reference/gs4_get.html) to see all of the sheets available within our spreadsheet. 
 
 ```{r gs4}
 gs4_get(pentathlon_ss)
 ```
-Let's say we want the "Women Finals" results. We can pipe the results of `gs4_get()` into `googlesheets4::read_sheet()` to read that specific sheet into R as a data frame.
+Let's say we want the "Women Finals" results. We can pipe the results of `gs4_get()` into [`googlesheets4::read_sheet()`](https://googlesheets4.tidyverse.org/reference/range_read.html) to read that specific sheet into R as a data frame. In this case, the sheets are all names (thanks to to UIPM's meticulous record keeping), so I'll specify the `sheet` argument as a string. However, you can also specify the `sheet` by position (e.g. 6, in the case of the sheet I want here). If `sheet` is not specified, `read_sheet()` will default to the first visible sheet.
 
 ```{r read-sheet}
 w_finals <- gs4_get(pentathlon_ss) %>%
@@ -72,3 +84,78 @@ w_finals <- gs4_get(pentathlon_ss) %>%
 glimpse(w_finals)
 ```
 
+## Adding and writing to the spreadsheet
+
+As you can probably see from this `glimpse()` at the data above, it is most definitely _not_ tidy. If you want to see how I went about cleaning it up and/or learn more about the sport of modern pentathlon, you can check out the episode of [Ellis Hughes](https://twitter.com/ellis_hughes)
+and [Patrick Ward’s](https://twitter.com/OSPpatrick) [TidyX Screencast](https://www.youtube.com/channel/UCP8l94xtoemCH_GxByvTuFQ),  [Episode 69 | Modern Pentathlons with Mara Averick](https://www.youtube.com/watch?v=1356s1-as4o), and find all of the code in [this GitHub repo](https://github.com/batpigandme/modern-pentathlon).
+
+For the purposes of this post, suffice it to say that cleaning was done, resulting in a tidy data frame called `women_finals_tidy`.
+
+```{r tidy-women-finals, echo=FALSE}
+women_finals_tidy <- w_finals %>%
+  janitor::clean_names() %>%
+  separate("name", into = c("name", "uipm_id"), sep = "\n") %>%
+  separate("uipm_id", into = c("uipm_id", "dob"), sep = " ") %>%
+  separate("fencing", into = c("fencing_pts", "f_rest"), sep = ' \\(') %>%
+  separate("f_rest", into = c("fencing_pos", "f_rest"), sep = '\\)\n') %>%
+  separate("f_rest", into = c("fencing_wins", "f_rest"), sep = " V - ") %>%
+  separate("f_rest", into = c("fencing_losses", NA), sep = " ") %>%
+  separate("swimming", into = c("swim_pts", "s_rest"), sep = ' \\(') %>%
+  separate("s_rest", into = c("swim_pos", "swim_time"), sep = '\\)\n') %>%
+  separate("riding", into = c("riding_pts", "r_rest"), sep = ' \\(') %>%
+  separate("r_rest", into = c("riding_pos", "riding_score"), sep = '\\)\n') %>%
+  separate("laser_run", into = c("laser_run_pts", "lr_rest"), sep = ' \\(') %>%
+  separate("lr_rest", into = c("lr_pos", "lr_time"), sep = '\\)\n') %>%
+  mutate(across(ends_with("pts") | ends_with("pos") | starts_with("fencing") | starts_with("riding"), readr::parse_double)) %>%
+  mutate(time_difference = readr::parse_number(time_difference)) %>%
+  mutate(dob = readr::parse_date(dob, "%Y-%m-%d")) %>%
+  mutate(time_difference = replace_na(time_difference, 0)) %>%
+  separate(lr_time, into = c("lr_mins", "lr_secs"), sep = ":", remove = FALSE) %>%
+  mutate(lr_mins = lubridate::dminutes(as.numeric(lr_mins))) %>%
+  mutate(across(c("lr_secs", "time_difference"), lubridate::dseconds)) %>%
+  mutate(lr_secs = lr_mins + lr_secs) %>%
+  mutate(finish_time = lr_secs + time_difference) %>%
+  select(-lr_mins)
+```
+
+```{r glimpse-tidy-finals}
+glimpse(women_finals_tidy)
+```
+
+To add this back to our original spreadsheet, we'll use two functions: [`googlesheets4::sheet_add()`](https://googlesheets4.tidyverse.org/reference/sheet_add.html) to add a new named sheet to our existing spreadsheet, and [`googlesheets4::sheet_write()`](https://googlesheets4.tidyverse.org/reference/sheet_write.html) to write our data into that sheet.
+
+Without a `sheet` argument, `sheet_add()` would create a new sheet in the specified file as "SheetN", but I'll specify the argument to call it "Tidy Women Finals". Since I want the sheet to be put at the end of the workbook (which is the default behaviour), I am not going to specify an argument for `.before` or `.after`.
+
+```{r add-sheet}
+sheet_add(pentathlon_ss, sheet = "Tidy Women Finals")
+```
+
+Now we'll actually write the data frame from R into that tab with `write_sheet()`.
+
+```{r write-sheet}
+write_sheet(women_finals_tidy, 
+            ss = pentathlon_ss, 
+            sheet = "Tidy Women Finals")
+```
+
+To see if that worked, we can use `gs4_get()` again to show us the tabs in our workbook:
+
+```{r gs4-get-again}
+gs4_get(pentathlon_ss)
+```
+
+If you're a very astute observer, you may be wondering why the dimensions of the "Tidy Women Finals" do not look exactly the same as our `women_finals_tidy` data frame. This is because `sheet_write()` styles the target sheet as a table, which means that the column names become the first/header row, conveniently frozen for your scrolling pleasure.
+
+![Tidy Women Finals tab of UIPM World Championships Google Sheets workbook with first row showing column names](https://i.imgur.com/0X0Ame2.png)
+
+```{r delete-sheet, echo=FALSE, message=FALSE}
+# deleting the Tidy Women Finals sheet so that it doesn't exist
+# when I go to knit this file again
+sheet_delete(pentathlon_ss, sheet = "Tidy Women Finals")
+```
+
+## Fin
+
+Success! We've added our tidy data frame to the original data we uploaded to Google Drive.
+
+To learn more about working with these packages, I highly recommend checking out the bevvy of helpful [googlesheets4 articles](https://googlesheets4.tidyverse.org/articles/index.html) written by Jenny Bryan.
