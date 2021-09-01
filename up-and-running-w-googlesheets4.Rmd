@@ -15,15 +15,17 @@ knitr::opts_chunk$set(
 
 Given the new(ish), major releases of [**{googledrive}**](https://googledrive.tidyverse.org/) and [**{googlesheets4}**](https://googlesheets4.tidyverse.org/) (see Jenny Bryan's release posts for [googledrive 2.0.0](https://www.tidyverse.org/blog/2021/07/googledrive-2-0-0/) and [googlesheets4 1.0.0](https://www.tidyverse.org/blog/2021/07/googlesheets4-1-0-0/)), we thought it might be helpful to see how the two packages can be used together in a "real-world" scenario.
 
-Here, I'll be using downloaded Excel data on the modern pentathlon, uploading it to Google Drive as a Google Sheet, reading it into R, and modifying the spreadsheet Google Drive by adding a tidied version of that data as a new sheet/tab.
+## What am I trying to do?
+
+I'm taking downloaded Excel data on the modern pentathlon, and uploading it to Google Drive as a Google Sheet. From there I want to read some of the data into R, clean it up, and modify the original spreadsheet in Google Drive by adding the tidied version of the data as a new sheet/tab.
+
+## Authenticating and uploading
 
 ```{r libs, message=FALSE}
 library(tidyverse)
 library(googledrive)
 library(googlesheets4)
 ```
-
-## Authenticating and uploading
 
 First thing's first, I'll to upload the `.xls` file from  [Union Internationale de Pentathlon Moderne (UIPM) 2021 Pentathlon World Championships](https://www.uipmworld.org/event/uipm-2021-pentathlon-world-championships) to Google Drive.
 

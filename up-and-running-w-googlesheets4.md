@@ -13,18 +13,21 @@ Bryan’s release posts for [googledrive
 thought it might be helpful to see how the two packages can be used
 together in a “real-world” scenario.
 
-Here, I’ll be using downloaded Excel data on the modern pentathlon,
-uploading it to Google Drive as a Google Sheet, reading it into R, and
-modifying the spreadsheet Google Drive by adding a tidied version of
-that data as a new sheet/tab.
+## What am I trying to do?
+
+I’m taking downloaded Excel data on the modern pentathlon, and uploading
+it to Google Drive as a Google Sheet. From there I want to read some of
+the data into R, clean it up, and modify the original spreadsheet in
+Google Drive by adding the tidied version of the data as a new
+sheet/tab.
+
+## Authenticating and uploading
 
 ``` r
 library(tidyverse)
 library(googledrive)
 library(googlesheets4)
 ```
-
-## Authenticating and uploading
 
 First thing’s first, I’ll to upload the `.xls` file from [Union
 Internationale de Pentathlon Moderne (UIPM) 2021 Pentathlon World
@@ -67,7 +70,7 @@ drive_upload(
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
 #> Uploaded into Drive file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
-#>   <id: 1PINwFI5jAgiEUq-Kf1GaNd7Fl0a_mvrB>
+#>   <id: 1sZr2uqxmV1i2pKI_X8Zu53R9NyU5ERmo>
 #> With MIME type:
 #> • 'application/vnd.ms-excel'
 ```
@@ -87,12 +90,12 @@ drive_upload(
 )
 #> File trashed:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
-#>   <id: 1PINwFI5jAgiEUq-Kf1GaNd7Fl0a_mvrB>
+#>   <id: 1sZr2uqxmV1i2pKI_X8Zu53R9NyU5ERmo>
 #> Local file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
 #> Uploaded into Drive file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships'
-#>   <id: 1oh-daG3f_dKyPkkj-dHCsY25P13_MK7H7Uqh0d_B3rc>
+#>   <id: 12kgw4ZJf9bNUxahYaRl3MT4Cu9NfcNyBZ-wci_XQcmE>
 #> With MIME type:
 #> • 'application/vnd.google-apps.spreadsheet'
 ```
@@ -109,7 +112,7 @@ drive_find("Pentathlon")
 #> # A dribble: 3 × 3
 #>   name                                   id                      drive_resource 
 #>   <chr>                                  <drv_id>                <list>         
-#> 1 Competition_Results_Exports_UIPM_2021… 1oh-daG3f_dKyPkkj-dHCs… <named list [3…
+#> 1 Competition_Results_Exports_UIPM_2021… 12kgw4ZJf9bNUxahYaRl3M… <named list [3…
 #> 2 Competition_Results_Exports_UIPM_2021… 1W5Y46CAMjpvnqOtPIzA48… <named list [3…
 #> 3 UIPM_Competition_Results_Exports_UIPM… 1qfDtXN2FO7O412pBxdXlJ… <named list [3…
 ```
@@ -128,7 +131,6 @@ to see all of the sheets available within our spreadsheet.
 
 ``` r
 gs4_get(pentathlon_ss)
-#> Auto-refreshing stale OAuth token.
 #> Spreadsheet name: Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships
 #>               ID: 1W5Y46CAMjpvnqOtPIzA48hmCJElb6vKE1-Vo8v2jj_4
 #>           Locale: en_US
