@@ -21,7 +21,7 @@ The Union Internationale de Pentathlon Moderne (UIPM) makes its world-championsh
 
 ![Women Finals tab of Competition Results UIPM Export showing untidy data in cells](https://i.imgur.com/4ciN2ma.png)
 
-To clean things up, I'll take the downloaded Excel data oand upload it to Google Drive as a Google Sheet. From there I want to read some of the data into R, tidy it up, and modify the original spreadsheet in Google Drive by adding the tidied version of the data as a new sheet/tab.
+To clean things up, I'll take the downloaded Excel data and upload it to Google Drive as a Google Sheet. From there I'll read some of the data into R, tidy it up, and modify the original spreadsheet in Google Drive by adding the tidied version of the data as a new sheet/tab.
 
 ## Authenticating and uploading
 
@@ -31,7 +31,7 @@ library(googledrive)
 library(googlesheets4)
 ```
 
-First thing's first, I'll to upload the `.xls` file from  [UIPM 2021 Pentathlon World Championships](https://www.uipmworld.org/event/uipm-2021-pentathlon-world-championships) to Google Drive.
+First thing's first, uploading `.xls` file from  [UIPM 2021 Pentathlon World Championships](https://www.uipmworld.org/event/uipm-2021-pentathlon-world-championships) to Google Drive.
 
 To authenticate with my Google Drive account (and specify which one I want to use), I'll use [`googledrive::drive_auth()`](https://googledrive.tidyverse.org/reference/drive_auth.html), which allows you to either interactively select a pre-authorized account in your R console, or takes you to the browser to generate a new token for your Google account. I'll also (unnecessarily) specify [`googlesheets4::gs4_auth()`](https://googlesheets4.tidyverse.org/reference/gs4_auth.html), just so you can see what that function looks like as well. 
 

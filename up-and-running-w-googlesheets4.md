@@ -23,10 +23,10 @@ any given cell.
 ![Women Finals tab of Competition Results UIPM Export showing untidy
 data in cells](https://i.imgur.com/4ciN2ma.png)
 
-To clean things up, I’ll take the downloaded Excel data oand upload it
-to Google Drive as a Google Sheet. From there I want to read some of the
-data into R, tidy it up, and modify the original spreadsheet in Google
-Drive by adding the tidied version of the data as a new sheet/tab.
+To clean things up, I’ll take the downloaded Excel data and upload it to
+Google Drive as a Google Sheet. From there I’ll read some of the data
+into R, tidy it up, and modify the original spreadsheet in Google Drive
+by adding the tidied version of the data as a new sheet/tab.
 
 ## Authenticating and uploading
 
@@ -36,8 +36,8 @@ library(googledrive)
 library(googlesheets4)
 ```
 
-First thing’s first, I’ll to upload the `.xls` file from [UIPM 2021
-Pentathlon World
+First thing’s first, uploading `.xls` file from [UIPM 2021 Pentathlon
+World
 Championships](https://www.uipmworld.org/event/uipm-2021-pentathlon-world-championships)
 to Google Drive.
 
@@ -77,7 +77,7 @@ drive_upload(
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
 #> Uploaded into Drive file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
-#>   <id: 1OPNxEy35jsOmR4H5DadvDaOeN2E_6G4e>
+#>   <id: 1uzI1_4mSg_FRLpCVsr4A0sZDaOlow3k9>
 #> With MIME type:
 #> • 'application/vnd.ms-excel'
 ```
@@ -97,12 +97,12 @@ drive_upload(
 )
 #> File trashed:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
-#>   <id: 1OPNxEy35jsOmR4H5DadvDaOeN2E_6G4e>
+#>   <id: 1uzI1_4mSg_FRLpCVsr4A0sZDaOlow3k9>
 #> Local file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
 #> Uploaded into Drive file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships'
-#>   <id: 1sW1E8EZYXuVjiQEpBS7GQr3DrRAnn4dP0Est37DImhM>
+#>   <id: 17OXIFX3_z1lfpU6QNi225wYHjB1xmCginA3uoi4Osxw>
 #> With MIME type:
 #> • 'application/vnd.google-apps.spreadsheet'
 ```
@@ -116,12 +116,13 @@ to find the sheet I want by name or keyword.
 
 ``` r
 drive_find("Pentathlon")
-#> # A dribble: 3 × 3
+#> # A dribble: 4 × 3
 #>   name                                   id                      drive_resource 
 #>   <chr>                                  <drv_id>                <list>         
-#> 1 Competition_Results_Exports_UIPM_2021… 1sW1E8EZYXuVjiQEpBS7GQ… <named list [3…
+#> 1 Competition_Results_Exports_UIPM_2021… 17OXIFX3_z1lfpU6QNi225… <named list [3…
 #> 2 Competition_Results_Exports_UIPM_2021… 1W5Y46CAMjpvnqOtPIzA48… <named list [3…
-#> 3 UIPM_Competition_Results_Exports_UIPM… 1qfDtXN2FO7O412pBxdXlJ… <named list [3…
+#> 3 Competition_Results_Exports_UIPM_2021… 1sW1E8EZYXuVjiQEpBS7GQ… <named list [3…
+#> 4 UIPM_Competition_Results_Exports_UIPM… 1qfDtXN2FO7O412pBxdXlJ… <named list [3…
 ```
 
 Since I know which one I want, I can retrieve the sheet by `id` with
@@ -138,7 +139,6 @@ to see all of the sheets available within our spreadsheet.
 
 ``` r
 gs4_get(pentathlon_ss)
-#> Auto-refreshing stale OAuth token.
 #> Spreadsheet name: Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships
 #>               ID: 1W5Y46CAMjpvnqOtPIzA48hmCJElb6vKE1-Vo8v2jj_4
 #>           Locale: en_US
