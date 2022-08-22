@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 
 ## What's this?
 
-Given the new(ish), major releases of [**{googledrive}**](https://googledrive.tidyverse.org/) and [**{googlesheets4}**](https://googlesheets4.tidyverse.org/) (see Jenny Bryan's release posts for [googledrive 2.0.0](https://www.tidyverse.org/blog/2021/07/googledrive-2-0-0/) and [googlesheets4 1.0.0](https://www.tidyverse.org/blog/2021/07/googlesheets4-1-0-0/)), we thought it might be helpful to see how the two packages can be used together in a "real-world" scenario.
+Given the major releases of [**{googledrive}**](https://googledrive.tidyverse.org/) and [**{googlesheets4}**](https://googlesheets4.tidyverse.org/) (see Jenny Bryan's release posts for [googledrive 2.0.0](https://www.tidyverse.org/blog/2021/07/googledrive-2-0-0/) and [googlesheets4 1.0.0](https://www.tidyverse.org/blog/2021/07/googlesheets4-1-0-0/)), we thought it might be helpful to see how the two packages can be used together in a "real-world" scenario.
 
 ## What am I trying to do?
 

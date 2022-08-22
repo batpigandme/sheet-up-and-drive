@@ -3,7 +3,7 @@ Up and running with googlesheets4
 
 ## What’s this?
 
-Given the new(ish), major releases of
+Given the major releases of
 [**{googledrive}**](https://googledrive.tidyverse.org/) and
 [**{googlesheets4}**](https://googlesheets4.tidyverse.org/) (see Jenny
 Bryan’s release posts for [googledrive
@@ -73,11 +73,12 @@ drive_upload(
   media = "Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls",
   overwrite = TRUE
 )
+#> Auto-refreshing stale OAuth token.
 #> Local file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
 #> Uploaded into Drive file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
-#>   <id: 1uzI1_4mSg_FRLpCVsr4A0sZDaOlow3k9>
+#>   <id: 1_PYr9SRJo25x1vA-3pLq9UI3BNorFDmZ>
 #> With MIME type:
 #> • 'application/vnd.ms-excel'
 ```
@@ -97,12 +98,12 @@ drive_upload(
 )
 #> File trashed:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
-#>   <id: 1uzI1_4mSg_FRLpCVsr4A0sZDaOlow3k9>
+#>   <id: 1_PYr9SRJo25x1vA-3pLq9UI3BNorFDmZ>
 #> Local file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
 #> Uploaded into Drive file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships'
-#>   <id: 17OXIFX3_z1lfpU6QNi225wYHjB1xmCginA3uoi4Osxw>
+#>   <id: 1qDmadFyulgJIVikFIKo0PseA5X_q8IUahUG1buSAjL8>
 #> With MIME type:
 #> • 'application/vnd.google-apps.spreadsheet'
 ```
@@ -116,13 +117,15 @@ to find the sheet I want by name or keyword.
 
 ``` r
 drive_find("Pentathlon")
-#> # A dribble: 4 × 3
-#>   name                                   id                      drive_resource 
-#>   <chr>                                  <drv_id>                <list>         
-#> 1 Competition_Results_Exports_UIPM_2021… 17OXIFX3_z1lfpU6QNi225… <named list [3…
-#> 2 Competition_Results_Exports_UIPM_2021… 1W5Y46CAMjpvnqOtPIzA48… <named list [3…
-#> 3 Competition_Results_Exports_UIPM_2021… 1sW1E8EZYXuVjiQEpBS7GQ… <named list [3…
-#> 4 UIPM_Competition_Results_Exports_UIPM… 1qfDtXN2FO7O412pBxdXlJ… <named list [3…
+#> # A dribble: 5 × 3
+#>   name                                                        id    drive_reso…¹
+#>   <chr>                                                       <drv> <list>      
+#> 1 Competition_Results_Exports_UIPM_2021_Pentathlon_World_Cha… 1qDm… <named list>
+#> 2 Competition_Results_Exports_UIPM_2021_Pentathlon_World_Cha… 1W5Y… <named list>
+#> 3 Competition_Results_Exports_UIPM_2021_Pentathlon_World_Cha… 1H7C… <named list>
+#> 4 Competition_Results_Exports_UIPM_2021_Pentathlon_World_Cha… 17OX… <named list>
+#> 5 UIPM_Competition_Results_Exports_UIPM_2021_Pentathlon_Worl… 1qfD… <named list>
+#> # … with abbreviated variable name ¹​drive_resource
 ```
 
 Since I know which one I want, I can retrieve the sheet by `id` with
@@ -139,6 +142,7 @@ to see all of the sheets available within our spreadsheet.
 
 ``` r
 gs4_get(pentathlon_ss)
+#> Auto-refreshing stale OAuth token.
 #> Spreadsheet name: Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships
 #>               ID: 1W5Y46CAMjpvnqOtPIzA48hmCJElb6vKE1-Vo8v2jj_4
 #>           Locale: en_US
@@ -175,9 +179,9 @@ first visible sheet.
 ``` r
 w_finals_df <- gs4_get(pentathlon_ss) %>%
   read_sheet(sheet = "Women Finals")
-#> ✓ Reading from
+#> ✔ Reading from
 #>   "Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships".
-#> ✓ Range ''Women Finals''.
+#> ✔ Range ''Women Finals''.
 ```
 
 ``` r
@@ -255,7 +259,7 @@ argument for `.before` or `.after`.
 
 ``` r
 sheet_add(pentathlon_ss, sheet = "Tidy Women Finals")
-#> ✓ Adding 1 sheet to
+#> ✔ Adding 1 sheet to
 #>   "Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships":
 #> • 'Tidy Women Finals'
 ```
@@ -267,9 +271,9 @@ Now we’ll actually write the data frame from R into that tab with
 write_sheet(women_finals_tidy, 
             ss = pentathlon_ss, 
             sheet = "Tidy Women Finals")
-#> ✓ Writing to
+#> ✔ Writing to
 #>   "Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships".
-#> ✓ Writing to sheet 'Tidy Women Finals'.
+#> ✔ Writing to sheet 'Tidy Women Finals'.
 ```
 
 To see if that worked, we can use `gs4_get()` again to show us the tabs
