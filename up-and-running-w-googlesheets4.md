@@ -20,8 +20,12 @@ world-championship data available in Excel format as a workbook with 14
 sheets. The data itself is decidedly untidy, with a number of values in
 any given cell.
 
-![Women Finals tab of Competition Results UIPM Export showing untidy
-data in cells](https://i.imgur.com/4ciN2ma.png)
+<figure>
+<img src="https://i.imgur.com/4ciN2ma.png"
+alt="Women Finals tab of Competition Results UIPM Export showing untidy data in cells" />
+<figcaption aria-hidden="true">Women Finals tab of Competition Results
+UIPM Export showing untidy data in cells</figcaption>
+</figure>
 
 To clean things up, I’ll take the downloaded Excel data and upload it to
 Google Drive as a Google Sheet. From there I’ll read some of the data
@@ -56,8 +60,8 @@ auth](https://gargle.r-lib.org/articles/non-interactive-auth.html#sidebar-2-i-ju
 article for [{gargle}](https://gargle.r-lib.org/).
 
 ``` r
-drive_auth(email = "mara@rstudio.com")
-gs4_auth(email = "mara@rstudio.com")
+drive_auth(email = "mara@posit.co")
+gs4_auth(email = "mara@posit.co")
 ```
 
 Now I can upload the Excel file to my Google Drive as a spreadsheet
@@ -73,12 +77,11 @@ drive_upload(
   media = "Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls",
   overwrite = TRUE
 )
-#> Auto-refreshing stale OAuth token.
 #> Local file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
 #> Uploaded into Drive file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
-#>   <id: 1_PYr9SRJo25x1vA-3pLq9UI3BNorFDmZ>
+#>   <id: 1dSzZDJLLKNvdQ3uhluUbEp_k0jMG3jwG>
 #> With MIME type:
 #> • 'application/vnd.ms-excel'
 ```
@@ -98,12 +101,12 @@ drive_upload(
 )
 #> File trashed:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
-#>   <id: 1_PYr9SRJo25x1vA-3pLq9UI3BNorFDmZ>
+#>   <id: 1dSzZDJLLKNvdQ3uhluUbEp_k0jMG3jwG>
 #> Local file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships.xls'
 #> Uploaded into Drive file:
 #> • 'Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships'
-#>   <id: 1qDmadFyulgJIVikFIKo0PseA5X_q8IUahUG1buSAjL8>
+#>   <id: 1xyKoOHgtVnP9J-2aReCK-rIpLF0FMOryci3nxVlP_1M>
 #> With MIME type:
 #> • 'application/vnd.google-apps.spreadsheet'
 ```
@@ -117,15 +120,16 @@ to find the sheet I want by name or keyword.
 
 ``` r
 drive_find("Pentathlon")
-#> # A dribble: 5 × 3
-#>   name                                                        id    drive_reso…¹
-#>   <chr>                                                       <drv> <list>      
-#> 1 Competition_Results_Exports_UIPM_2021_Pentathlon_World_Cha… 1qDm… <named list>
-#> 2 Competition_Results_Exports_UIPM_2021_Pentathlon_World_Cha… 1W5Y… <named list>
-#> 3 Competition_Results_Exports_UIPM_2021_Pentathlon_World_Cha… 1H7C… <named list>
-#> 4 Competition_Results_Exports_UIPM_2021_Pentathlon_World_Cha… 17OX… <named list>
-#> 5 UIPM_Competition_Results_Exports_UIPM_2021_Pentathlon_Worl… 1qfD… <named list>
-#> # … with abbreviated variable name ¹​drive_resource
+#> # A dribble: 7 × 3
+#>   name                                                      id    drive_resource
+#>   <chr>                                                     <drv> <list>        
+#> 1 Competition_Results_Exports_UIPM_2021_Pentathlon_World_C… 1xyK… <named list>  
+#> 2 Competition_Results_Exports_UIPM_2021_Pentathlon_World_C… 1HbD… <named list>  
+#> 3 Competition_Results_Exports_UIPM_2021_Pentathlon_World_C… 1W5Y… <named list>  
+#> 4 Competition_Results_Exports_UIPM_2021_Pentathlon_World_C… 1qDm… <named list>  
+#> 5 Competition_Results_Exports_UIPM_2021_Pentathlon_World_C… 1H7C… <named list>  
+#> 6 Competition_Results_Exports_UIPM_2021_Pentathlon_World_C… 17OX… <named list>  
+#> 7 UIPM_Competition_Results_Exports_UIPM_2021_Pentathlon_Wo… 1qfD… <named list>
 ```
 
 Since I know which one I want, I can retrieve the sheet by `id` with
@@ -142,7 +146,6 @@ to see all of the sheets available within our spreadsheet.
 
 ``` r
 gs4_get(pentathlon_ss)
-#> Auto-refreshing stale OAuth token.
 #> Spreadsheet name: Competition_Results_Exports_UIPM_2021_Pentathlon_World_Championships
 #>               ID: 1W5Y46CAMjpvnqOtPIzA48hmCJElb6vKE1-Vo8v2jj_4
 #>           Locale: en_US
@@ -312,9 +315,13 @@ styles the target sheet as a table, which means that the column names
 become the first/header row, conveniently frozen for your scrolling
 pleasure.
 
-![Tidy Women Finals tab of UIPM World Championships Google Sheets
-workbook with first row showing column
-names](https://i.imgur.com/0X0Ame2.png)
+<figure>
+<img src="https://i.imgur.com/0X0Ame2.png"
+alt="Tidy Women Finals tab of UIPM World Championships Google Sheets workbook with first row showing column names" />
+<figcaption aria-hidden="true">Tidy Women Finals tab of UIPM World
+Championships Google Sheets workbook with first row showing column
+names</figcaption>
+</figure>
 
 ## Fin
 

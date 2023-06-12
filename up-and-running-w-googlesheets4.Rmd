@@ -7,7 +7,7 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  gargle_oauth_email = "mara@rstudio.com"
+  gargle_oauth_email = "mara@posit.co"
 )
 ```
 
@@ -38,8 +38,8 @@ To authenticate with my Google Drive account (and specify which one I want to us
 To learn more about authenticating your account in an R Markdown document, see the [Non-interactive auth](https://gargle.r-lib.org/articles/non-interactive-auth.html#sidebar-2-i-just-want-my-rmd-to-render) article for [{gargle}](https://gargle.r-lib.org/).
 
 ```{r drive-auth}
-drive_auth(email = "mara@rstudio.com")
-gs4_auth(email = "mara@rstudio.com")
+drive_auth(email = "mara@posit.co")
+gs4_auth(email = "mara@posit.co")
 ```
 
 Now I can upload the Excel file to my Google Drive as a spreadsheet using [`googledrive::drive_upload()`](https://googledrive.tidyverse.org/reference/drive_upload.html). If I don't specify the `type` argument, a MIME type is automatically determined from the file extension. I'm using the `overwrite` argument here to avoid clogging my Google Drive with this same data over and over, since I've knit this document several times.
